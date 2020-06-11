@@ -1,4 +1,4 @@
-.PHONY: ewt ewt.mrp ud streusle companion augment split clean
+.PHONY: ewt ewt.mrp ud streusle companion augment split jackknife-ud jackknife-streusle clean
 
 ../toolkit/mtool:
 	git clone https://github.com/cfmrp/mtool $@
@@ -52,6 +52,19 @@ ewt.%.aug.streusle.mrp: ../file-lists/%.txt
 
 ewt.%.aug.companion.mrp: ../file-lists/%.txt
 	grep -Ff $< ewt.aug.companion.mrp > $@
+
+jackknife-ud: \
+           train-00.conllu train-01.conllu train-02.conllu train-03.conllu train-04.conllu \
+           parse-00.ct parse-01.ct parse-02.ct parse-03.ct parse-04.ct \
+           test-00.conllu test-01.conllu test-02.conllu test-03.conllu test-04.conllu
+
+train-%.conllu parse-%.ct test-%.conllu: en_ewt-ud-train.conllu ../file-lists/train.txt
+	python ../toolkit/jackknife.py $< --doc-ids ../file-lists/train.txt
+
+jackknife-streusle: \
+           train-00.conllulex train-01.conllulex train-02.conllulex train-03.conllulex train-04.conllulex \
+           parse-00.conllu parse-01.conllu parse-02.conllu parse-03.conllu parse-04.conllu \
+           test-00.conllulex test-01.conllulex test-02.conllulex test-03.conllulex test-04.conllulex
 
 clean:
 	rm -rf mrp ewt ud streusle *.mrp *.conllu *.conllulex
