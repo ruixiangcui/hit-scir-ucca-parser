@@ -28,6 +28,6 @@ with open(mrp_file, 'r', encoding='utf8') as f_m, open(out_file, 'w', encoding='
     if id not in augs:
       print("id:{} not in companion".format(id))
     else:
-      mrp['companion'] = augs[id]
+      mrp['companion'] = dict(sent_id=id, toks=augs[id])
       fo.write((json.dumps(mrp)+'\n'))
     line = f_m.readline()
