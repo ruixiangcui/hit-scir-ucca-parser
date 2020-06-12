@@ -128,8 +128,9 @@ class Graph(object):
     def extract_token_info_from_companion_data(self):
         annotation = self.companion["toks"]
 
-        tokens, lemmas, pos_tags = [list(filter(None, (x.get(key) for x in annotation)))
-                                    for key in ("word", "lemma", "upos")]
+        tokens = list(filter(None, (x.get("word", x.get("form")) for x in annotation)))
+        lemmas, pos_tags = [list(filter(None, (x.get(key) for x in annotation)))
+                                    for key in ("lemma", "upos")]
         token_range = [tuple([int(i) for i in list(x["misc"].values())[0].split(':')]) for x in annotation]
 
         return {"tokens": tokens,
