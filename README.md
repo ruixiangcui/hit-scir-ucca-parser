@@ -24,10 +24,19 @@ Download model from [google-drive] (CoNLL2019 Submission Version).
 
 For prediction, please specify the BERT path in `config.json` to import the bert-indexer and bert-embedder. More prediction commands could be found in `bash/predict.sh`.
 
+## Training
+
+To get the data, run
+
+    cd data/
+    make split
+
 About BERT version, DM/PSD/UCCA/EDS use cased_L-12_H-768_A-12 (`cased-bert-base`) and AMR uses wwm_cased_L-24_H-1024_A-16 (`wwm-cased-bert-large`).
 
-Download https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-cased-pytorch_model.bin
-and rename it to `bert/pytorch_model.bin`.
+To get the BERT checkpoints, run
+
+    cd bert/
+    make
 
 ## Usage
 

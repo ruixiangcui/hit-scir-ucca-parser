@@ -36,10 +36,10 @@ augment: ewt.aug.companion.mrp ewt.aug.streusle.mrp
 ewt.aug.companion.mrp: ewt.companion.conllu ewt.mrp
 	python ../toolkit/augment_data_conllu.py $+ $@
 
-ewt.aug.streusle.mrp: streusle.conllulex ewt.mrp ewt.aug.streusle.mrp
+ewt.aug.streusle.mrp: streusle.conllulex ewt.mrp
 	python ../toolkit/augment_data_conllulex.py $+ $@
 
-split: ewt/train ewt/dev ewt/test \
+split: ewt ewt/train ewt/dev ewt/test \
        ewt.train.aug.streusle.mrp ewt.dev.aug.streusle.mrp ewt.test.aug.companion.mrp \
        ewt.train.aug.companion.mrp ewt.dev.aug.companion.mrp ewt.test.aug.streusle.mrp
 
@@ -47,11 +47,11 @@ ewt/%: ../file-lists/%.txt
 	mkdir -p $@
 	xargs -I % find ewt -maxdepth 1 -name '%*.pickle' < $< | xargs ln -srt $@
 
-ewt.%.aug.streusle.mrp: ../file-lists/%.txt
-	grep -Ff $< ewt.aug.streusle.mrp > $@
+ewt.%.aug.streusle.mrp: ../file-lists/%.txt ewt.aug.streusle.mrp
+	grep -Ff $+ > $@
 
-ewt.%.aug.companion.mrp: ../file-lists/%.txt
-	grep -Ff $< ewt.aug.companion.mrp > $@
+ewt.%.aug.companion.mrp: ../file-lists/%.txt ewt.aug.companion.mrp
+	grep -Ff $+ > $@
 
 jackknife-ud: \
            train-00.conllu train-01.conllu train-02.conllu train-03.conllu train-04.conllu \

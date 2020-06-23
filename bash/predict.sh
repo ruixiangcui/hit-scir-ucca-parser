@@ -7,7 +7,7 @@
 for split in dev test; do
   allennlp predict \
   --cuda-device -1 \
-  --output-file ucca-output$SLURM_ARRAY_TASK_ID.$split.mrp \
+  --output-file data/ucca-output$SLURM_ARRAY_TASK_ID.$split.streusle.mrp \
   --predictor transition_predictor_ucca \
   --include-package utils \
   --include-package modules \
@@ -16,7 +16,7 @@ for split in dev test; do
   --batch-size 32 \
   --silent \
   checkpoints/ucca_bert${PREFIX:-}$SLURM_ARRAY_TASK_ID \
-  data/ewt.$split.aug.mrp
+  data/ewt.$split.aug.streusle.mrp
 
   mkdir -p data/ucca-output${PREFIX:-}$SLURM_ARRAY_TASK_ID.$split
   python toolkit/mtool/main.py data/ucca-output${PREFIX:-}$SLURM_ARRAY_TASK_ID.$split.mrp data/ucca-output${PREFIX:-}$SLURM_ARRAY_TASK_ID.$split.xml --read mrp --write ucca
