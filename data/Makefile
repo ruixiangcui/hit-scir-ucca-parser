@@ -36,7 +36,7 @@ augment: ewt.aug.companion.mrp ewt.aug.streusle.mrp
 ewt.aug.companion.mrp: ewt.companion.conllu ewt.mrp
 	python ../toolkit/augment_data_conllu.py $+ $@
 
-ewt.aug.streusle.mrp: streusle.conllulex ewt.mrp ewt.aug.streusle.mrp
+ewt.aug.streusle.mrp: streusle.conllulex ewt.mrp
 	python ../toolkit/augment_data_conllulex.py $+ $@
 
 split: ewt ewt/train ewt/dev ewt/test \
