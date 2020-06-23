@@ -26,6 +26,8 @@ For prediction, please specify the BERT path in `config.json` to import the bert
 
 About BERT version, DM/PSD/UCCA/EDS use cased_L-12_H-768_A-12 (`cased-bert-base`) and AMR uses wwm_cased_L-24_H-1024_A-16 (`wwm-cased-bert-large`).
 
+Download //storage.googleapis.com/bert_models/2019_05_30/wwm_cased_L-24_H-1024_A-16.zip and extract it under `bert/`.
+
 Download https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-cased-pytorch_model.bin
 and rename it to `bert/pytorch_model.bin`.
 
