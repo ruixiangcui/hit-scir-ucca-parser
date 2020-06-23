@@ -1,7 +1,7 @@
 {
-  "random_seed": 1,
-  "numpy_seed": 1,
-  "pytorch_seed": 1,
+  "random_seed": std.extVar('SEED'),
+  "numpy_seed": std.extVar('SEED'),
+  "pytorch_seed": std.extVar('SEED'),
   "vocabulary": {
     "non_padded_namespaces": [
     ],
