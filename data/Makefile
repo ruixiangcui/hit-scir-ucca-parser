@@ -1,7 +1,7 @@
 .PHONY: ewt ewt.mrp ud streusle companion augment split jackknife-ud jackknife-streusle clean
 
 ../toolkit/mtool:
-	git clone https://github.com/cfmrp/mtool $@
+	git clone https://github.com/cfmrp/mtool $@ || git submodule init
 
 ewt:
 	git clone https://github.com/UniversalConceptualCognitiveAnnotation/UCCA_English-EWT -b v1.0-sentences ewt
