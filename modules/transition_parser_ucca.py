@@ -421,9 +421,9 @@ class TransitionParser(Model):
                     action_sequence_length[sent_idx] += 1
 
         # categorical cross-entropy
-        _loss_CCE = -torch.sum(
-            torch.stack([torch.sum(torch.stack(cur_loss)) for cur_loss in losses if len(cur_loss) > 0])) / \
-                    sum([len(cur_loss) for cur_loss in losses])
+        non_empty_losses = [torch.sum(torch.stack(cur_loss)) for cur_loss in losses if len(cur_loss) > 0]
+        _loss_CCE = -torch.sum(torch.stack(non_empty_losses)) / sum([len(cur_loss) for cur_loss in losses]) \
+            if non_empty_losses else float('NaN')
 
         _loss = _loss_CCE
 
