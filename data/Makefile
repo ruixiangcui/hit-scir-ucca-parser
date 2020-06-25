@@ -22,7 +22,7 @@ en_ewt-ud.conllu: en_ewt-ud-train.conllu en_ewt-ud-dev.conllu en_ewt-ud-test.con
 streusle: streusle.conllulex streusle.ud_train.conllulex streusle.ud_dev.conllulex streusle.ud_test.conllulex
 
 streusle.conllulex streusle.ud_train.conllulex streusle.ud_dev.conllulex streusle.ud_test.conllulex:
-	git clone https://github.com/nert-nlp/streusle --branch=v4.3
+	git clone https://github.com/danielhers/streusle --branch=streusle2ucca
 	cp streusle/streusle.conllulex streusle/*/streusle.ud_*.conllulex ./
 
 companion: ewt.companion.conllu
