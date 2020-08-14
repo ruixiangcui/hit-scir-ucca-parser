@@ -9,6 +9,7 @@ from allennlp.data.fields import Field, TextField, MetadataField
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import SingleIdTokenIndexer, TokenIndexer
 from allennlp.data.tokenizers import Token
+from conllu.parser import parse_line, DEFAULT_FIELDS
 from overrides import overrides
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
@@ -56,7 +57,7 @@ class Node(object):
     def add_head(self, edge):
         assert edge["target"] == self.id
         remote = False
-        if "properties" in edge and "remote" in edge["properties"]:
+        if "properties" in edge and "remote" in edge["properties"] or "attributes" in edge and "remote" in edge["attributes"]:
             remote = True
         if edge["source"] in self.head_ids:
             self.heads.append(Head(edge["source"], edge["label"], remote))
@@ -70,7 +71,7 @@ class Node(object):
         assert edge["source"] == self.id
         # assert self.anchored ==False
         remote = False
-        if "properties" in edge and "remote" in edge["properties"]:
+        if "properties" in edge and "remote" in edge["properties"] or "attributes" in edge and "remote" in edge["attributes"]:
             remote = True
         if edge["target"] in self.child_ids:
             self.childs.append(Child(edge["target"], edge["label"], remote))
@@ -85,8 +86,8 @@ class Graph(object):
     def __init__(self, js):
         self.id = js["id"]
         self.input = js["input"]
-        assert len(js["tops"]) == 1
-        self.top = js["tops"][0]
+        if "tops" in js:
+            self.top = js["tops"][0]
 
         self.companion = {}
         if 'companion' in js:
@@ -126,11 +127,14 @@ class Graph(object):
         return childs, child_ids
 
     def extract_token_info_from_companion_data(self):
-        annotation = self.companion["toks"]
+        annotation = []
+        for line in self.companion:
+            line = '\t'.join(line)
+            annotation.append(parse_line(line, DEFAULT_FIELDS))
 
-        tokens = list(filter(None, (x.get("word", x.get("form")) for x in annotation)))
-        lemmas, pos_tags = [list(filter(None, (x.get(key) for x in annotation)))
-                                    for key in ("lemma", "upos")]
+        tokens = [x["form"] for x in annotation if x["form"] is not None]
+        lemmas = [x["lemma"] for x in annotation if x["lemma"] is not None]
+        pos_tags = [x["upostag"] for x in annotation if x["upostag"] is not None]
         token_range = [tuple([int(i) for i in list(x["misc"].values())[0].split(':')]) for x in annotation]
 
         return {"tokens": tokens,
